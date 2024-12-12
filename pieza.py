@@ -1,4 +1,4 @@
-from enumeraciones import COLOR  # Asumo que la enumeración COLOR está definida en enumeraciones.py
+from enumeraciones import COLOR 
 
 class Pieza:
     def __init__(self, color):
