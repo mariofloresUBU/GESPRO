@@ -138,27 +138,30 @@ class Tablero:
         return 0 <= fila < len(self.matriz) and 0 <= columna < len(self.matriz[0])
 
     def colocar(self, pieza, coordenada):
+        """
+        Ubica la pieza en la coordenada seleccionada.
+        """
         if pieza and self.perteneceASusDimensiones(coordenada):
             self.matriz[coordenada.fila][coordenada.columna].establecer_pieza(pieza)
-        """
-               Ubica la pieza en la coordenada seleccionada.
-        """
+
     def consultar_numero_filas(self):
+        """
+        Devuelve la cantidad de filas.
+        """
         return len(self.matriz)
-        """
-               Devuelve la cantidad de filas.
-        """
+
     def consultar_numero_columnas(self):
+        """
+        Devuelve la cantidad de columnas.
+        """
         return len(self.matriz[0])
-        """
-               Devuelve la cantidad de columnas.
-        """
+
     def obtener_celda(self, coordenada):
+        """
+        Devuelve la celda correspondiente a la coordenada recibida.
+        """
         if self.perteneceASusDimensiones(coordenada):
             return self.matriz[coordenada.fila][coordenada.columna]
-        """
-               Devuelve la celda correspondiente a la coordenada recibida.
-               """
         return None
 
 
