@@ -11,3 +11,14 @@ class Celda:
         """
         # Devuelve el valor del atributo 'pieza' de la instancia actual de 'Celda'
         return self.pieza
+
+def esta_vacia(self):
+    """
+    método que verifica si la celda está vacía.
+    
+    @return: true si la celda está vacía, false en caso contrario.
+    """
+    # compruebo si el atributo 'pieza' es none
+    # devuelvo true si lo es, de lo contrario devuelvo false
+    return self.pieza is None
+
