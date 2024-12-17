@@ -131,6 +131,12 @@ class Tablero:
                 j -= 1
         return piezasConsecutivas
 
+ def perteneceASusDimensiones(self, fila, columna):
+        """
+        Verifica si las coordenadas (fila, columna) están dentro de las dimensiones del tablero.
+        """
+        return 0 <= fila < len(self.matriz) and 0 <= columna < len(self.matriz[0])
+
 
 
 
