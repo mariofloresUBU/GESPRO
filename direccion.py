@@ -1,11 +1,7 @@
 from enum import Enum
 
 class Direccion(Enum):
-    NORTE = 1
-    SUR = 2
-    ESTE = 3
-    OESTE = 4
-    NORDESTE = 5
-    NOROESTE = 6
-    SUDESTE = 7
-    SUDOESTE = 8
+    HORIZONTAL = 1
+    VERTICAL = 2
+    DIAGONAL_NO_SE = 3
+    DIAGONAL_SO_NE = 4
