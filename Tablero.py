@@ -1,10 +1,21 @@
+from direccion import Direccion
+from celda import Celda
 
 class Tablero:
 
     def __init__(self, filas, columnas ):
+        """
+        Constructor del tipo Tablero.
+        :param filas: filas con las que se creará el tablero.
+        :param columnas: columnas con las que se creará el tablero.
+        """
         self.matriz = [[Celda(fila, columna) for columna in range(columnas)] for fila in range(filas)]
 
     def imprimir(self):
+        """
+        Imprime por pantalla el tablero
+        :return: texto que imprime el tablero.
+        """
         tablero = ""
         for fila in self.matriz:
             tablero += "\n"
@@ -13,42 +24,58 @@ class Tablero:
         print(tablero)
 
     def estaCompleto(self):
+        """
+        Devuelve True si está completo de fichas o False si no.
+        :return: valor booleano.
+        """
         completo = True
         for fila in self.matriz:
             for celda in fila:
-                if not celda.estaVacia():
+                if not celda.esta_vacia():
                     completo = False
                     break
         return completo
 
     def contarPiezasConsecutivas(self, coordenada, direccion):
+        """
+        Cuenta las piezas consecutivas de un mismo color que hay en una dirección a partir de una coordenada.
+        Para cada dirección llama a una función auxiliar.
+        :param coordenada: desde la que queremos empezar a comprobar.
+        :param direccion: que queremos comprobar.
+        :return: valor entero
+        """
         piezasConsecutivas = 0
         if direccion == Direccion.DIAGONAL_NO_SE:
-            piezasConsecutivas = contarPiezasConsecutivasDIAGONAL_NO_SE(coordenada, direccion)
-        else if direccion == Direccion.DIAGONAL_SO_NE:
-            piezasConsecutivas = contarPiezasConsecutivasDIAGONAL_SO_NE(coordenada, direccion)
-        else if direccion == Direccion.HORIZONTAL:
-            piezasConsecutivas = contarPiezasConsecutivasHORIZONTAL(coordenada, direccion)
-        else if direccion == Direccion.VERTICAL:
-            piezasConsecutivas = contarPiezasConsecutivasVERTICAL(coordenada, direccion)
+            piezasConsecutivas = self.contarPiezasConsecutivasNoSe(coordenada)
+        elif direccion == Direccion.DIAGONAL_SO_NE:
+            piezasConsecutivas = self.contarPiezasConsecutivasSoNe(coordenada)
+        elif direccion == Direccion.HORIZONTAL:
+            piezasConsecutivas = self.contarPiezasConsecutivasHORIZONTAL(coordenada)
+        elif direccion == Direccion.VERTICAL:
+            piezasConsecutivas = self.contarPiezasConsecutivasVERTICAL(coordenada)
         return piezasConsecutivas
 
     def contarPiezasConsecutivasHORIZONTAL(self, coordenada):
+        """
+        Cuenta las piezas consecutivas de un mismo color que hay en la dirección Horizontal
+        :param coordenada: desde la que queremos empezar a comprobar.
+        :return: valor entero
+        """
         fila = coordenada.obtenerFila()
         columna = coordenada.obtenerColumna()
         piezasConsecutivas = 0
 
-        if not self.matriz[fila][columna].estaVacia():
+        if not self.matriz[fila][columna].esta_vacia():
             color = self.matriz[fila][columna].devolverFicha().DevolverColor()
-        else return: piezasConsecutivas
+        else: return piezasConsecutivas
 
         for i in range(columna, len(self.matriz[0])):
-            if not self.matriz[fila][i].estaVacia() and self.matriz[fila][i].devolverFicha().DevolverColor() == color:
+            if not self.matriz[fila][i].esta_vacia() and self.matriz[fila][i].devolverFicha().DevolverColor() == color:
                 piezasConsecutivas += 1
             else: break
-        if perteneceASusDimensiones(fila, columna - 1):
+        if self.perteneceASusDimensiones(fila, columna - 1):
             for i in range(columna - 1, -1, -1):
-                if not self.matriz[fila][i].estaVacia() and self.matriz[fila][i].devolverFicha().DevolverColor() == color:
+                if not self.matriz[fila][i].esta_vacia() and self.matriz[fila][i].devolverFicha().DevolverColor() == color:
                     piezasConsecutivas += 1
                 else: break
         return piezasConsecutivas
@@ -58,17 +85,17 @@ class Tablero:
         columna = coordenada.obtenerColumna()
         piezasConsecutivas = 0
 
-        if not self.matriz[fila][columna].estaVacia():
+        if not self.matriz[fila][columna].esta_vacia():
             color = self.matriz[fila][columna].devolverFicha().DevolverColor()
         else: return piezasConsecutivas
 
         for i in range(fila, len(self.matriz[0])):
-            if not self.matriz[i][columna].estaVacia() and self.matriz[i][columna].devolverFicha().DevolverColor() == color:
+            if not self.matriz[i][columna].esta_vacia() and self.matriz[i][columna].devolverFicha().DevolverColor() == color:
                 piezasConsecutivas += 1
             else: break
-        if perteneceASusDimensiones(fila - 1, columna):
+        if self.perteneceASusDimensiones(fila - 1, columna):
             for i in range(fila - 1, -1, -1):
-                if not self.matriz[i][columna].estaVacia() and self.matriz[i][columna].devolverFicha().DevolverColor() == color:
+                if not self.matriz[i][columna].esta_vacia() and self.matriz[i][columna].devolverFicha().DevolverColor() == color:
                     piezasConsecutivas += 1
                 else: break
         return piezasConsecutivas
@@ -78,24 +105,24 @@ class Tablero:
         columna = coordenada.obtenerColumna()
         piezasConsecutivas = 0
 
-        if not self.matriz[fila][columna].estaVacia():
+        if not self.matriz[fila][columna].esta_vacia():
             color = self.matriz[fila][columna].devolverFicha().DevolverColor()
         else: return piezasConsecutivas
 
         i = fila
         j = columna
         while i >= 0 and j < len(self.matriz[0]):
-            if not self.matriz[i][j].estaVacia() and self.matriz[i][j].devolverFicha().DevolverColor() == color:
+            if not self.matriz[i][j].esta_vacia() and self.matriz[i][j].devolverFicha().DevolverColor() == color:
                 piezasConsecutivas += 1
             else: break
         i -= 1
         j += 1
 
-        if perteneceASusDimensiones(fila + 1, columna - 1):
+        if self.perteneceASusDimensiones(fila + 1, columna - 1):
             i = fila + 1
             j = columna - 1
             while i <= len(self.matriz) and j >= 0:
-                if not self.matriz[i][j].estaVacia() and self.matriz[i][j].devolverFicha().DevolverColor() == color:
+                if not self.matriz[i][j].esta_vacia() and self.matriz[i][j].devolverFicha().DevolverColor() == color:
                     piezasConsecutivas += 1
                 else: break
                 i += 1
@@ -107,24 +134,24 @@ class Tablero:
         columna = coordenada.obtenerColumna()
         piezasConsecutivas = 0
 
-        if not self.matriz[fila][columna].estaVacia():
+        if not self.matriz[fila][columna].esta_vacia():
             color = self.matriz[fila][columna].devolverFicha().DevolverColor()
         else: return piezasConsecutivas
 
         i = fila
         j = columna
         while i < len(self.matriz) and j < len(self.matriz[0]):
-            if not self.matriz[i][j].estaVacia() and self.matriz[i][j].devolverFicha().DevolverColor() == color:
+            if not self.matriz[i][j].esta_vacia() and self.matriz[i][j].devolverFicha().DevolverColor() == color:
                 piezasConsecutivas += 1
             else: break
         i += 1
         j += 1
 
-        if perteneceASusDimensiones(fila - 1, columna - 1):
+        if self.perteneceASusDimensiones(fila - 1, columna - 1):
             i = fila - 1
             j = columna - 1
             while i >= 0 and j >= 0:
-                if not self.matriz[i][j].estaVacia() and self.matriz[i][j].devolverFicha().DevolverColor() == color:
+                if not self.matriz[i][j].esta_vacia() and self.matriz[i][j].devolverFicha().DevolverColor() == color:
                     piezasConsecutivas += 1
                 else: break
                 i -= 1
